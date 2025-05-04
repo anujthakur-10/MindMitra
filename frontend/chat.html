@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MindMitra Chat</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+    <script src="firebase-config.js" defer></script>
+    <script src="script.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Righteous&display=swap">
+    <style>.righteous-regular {
+            font-family: "Righteous", sans-serif;
+            font-weight: 400;
+            font-style: normal;
+            }
+            .markdown-message p {
+                margin: 0.2rem 0;
+            }
+            .markdown-message ul {
+                margin: 0.2rem 0;
+                padding-left: 1.2rem;
+            }
+            .markdown-message li {
+                margin-bottom: 0.2rem;
+            }
+            .markdown-message strong {
+                font-weight: 600;
+            }
+            .markdown-message em {
+                font-style: italic;
+            }
+            #chatBox p {
+                margin: 0;
+                padding: 0;
+            }
+            #chatBox ul, #chatBox ol {
+                margin-top: 0;
+                margin-bottom: 0.5rem;
+                padding-left: 1rem;
+            }
+      </style>
+</head>
+<body class="flex h-screen righteous-regular">
+
+    <!-- Sidebar -->
+    <div class="w-64 bg-blue-200 p-4 flex flex-col justify-between">
+        <div>
+            <a href="index.html" class="text-2xl font-bold nav-brand righteous-regular flex items-center">
+                <i class="fas fa-brain mr-2 brand-blue"></i>
+                MindMitra
+            </a>
+            <button onclick="startNewChat()" class="w-full bg-blue-500 text-white py-2 rounded mb-4">New Chat</button>
+            <div id="chatHistory" class="space-y-2 overflow-y-auto h-80"></div>
+        </div>
+        <button onclick="logout()" class="text-red-600 hover:underline">Logout</button>
+    </div>
+
+    <!-- Main Chat Area -->
+    <div class="flex-1 flex flex-col">
+        <div class="bg-white p-6 border-b">
+            <h1 class="text-3xl font">Welcome back to MindMitra!</h1>
+            <p class="text-gray-600 mt-2">Feel free to share anything. We're here to listen.</p>
+        </div>
+
+        <div id="chatBox" class="flex-1 overflow-y-auto p-6 space-y-4 bg-gray-50"></div>
+
+        <div class="flex p-6 border-t">
+            <input id="userInput" type="text" placeholder="Type your thoughts..." class="flex-1 p-3 border rounded mr-4">
+            <button onclick="startListening()" class="bg-white border border-blue-400 text-blue-600 px-4 py-3 rounded mr-2 hover:bg-blue-100 transition">
+                🎙️
+            </button>
+            <button onclick="sendMessage()" class="bg-blue-500 text-white px-6 py-3 rounded hover:bg-blue-600">Send</button>
+        </div>
+    </div>
+
+</body>
+</html>

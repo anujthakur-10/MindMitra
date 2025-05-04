@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - MindMitra</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+    <script src="firebase-config.js" defer></script>
+    <script src="script.js" defer></script>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Righteous&display=swap">
+    <style>
+      :root {
+        --beige-bg: #f9f7f0;
+        --primary-blue: #3b82f6;
+        --primary-green: #2ecc71;
+        --gradient-start: #43e97b;
+        --gradient-end: #38f9d7;
+      }
+
+      .righteous-regular {
+        font-family: "Righteous", sans-serif;
+        font-weight: 400;
+        font-style: normal;
+      }
+      .heading-dark { color: #22292f !important; }
+      .text-dark { color: #22292f !important; }
+      .svg-bg-about { position: fixed; right: 0; bottom: 0; z-index: 0; width: 600px; max-width: 50vw; opacity: 0.45; pointer-events: none; }
+      @media (max-width: 900px) { .svg-bg-about { width: 90vw; max-width: 100vw; opacity: 0.18; } }
+      .main-content-about { position: relative; z-index: 1; }
+
+      .navbar-green {
+        background: linear-gradient(90deg, var(--gradient-start) 0%, var(--gradient-end) 100%);
+        color: white;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        padding: 0.5rem 0;
+      }
+
+      .nav-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 70px;
+      }
+
+      .nav-brand {
+        color: white;
+        text-decoration: none;
+        font-size: 1.8rem;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .nav-brand i {
+        font-size: 2rem;
+        color: var(--primary-blue);
+      }
+
+      .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 2rem;
+      }
+
+      .nav-link {
+        color: white;
+        text-decoration: none;
+        font-size: 1rem;
+        padding: 0.5rem 1rem;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+      }
+
+      .nav-link:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+      }
+
+      /* .btn-primary {
+        background-color: white;
+        color: var(--primary-blue);
+        padding: 0.7rem 1.5rem;
+        border-radius: 9999px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        text-decoration: none;
+      }
+
+      .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(255, 255, 255, 0.2);
+      }
+
+      .btn-outline {
+        border: 2px solid white;
+        color: white;
+        padding: 0.7rem 1.5rem;
+        border-radius: 9999px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        text-decoration: none;
+      }
+
+      .btn-outline:hover {
+        background-color: white;
+        color: var(--primary-blue);
+      } */
+
+      .theme-toggle {
+        background: none;
+        border: none;
+        color: white;
+        cursor: pointer;
+        padding: 0.5rem;
+        border-radius: 50%;
+        transition: all 0.3s ease;
+      }
+
+      .theme-toggle:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+      }
+
+      .mobile-menu-button {
+        background: none;
+        border: none;
+        color: white;
+        font-size: 1.5rem;
+        cursor: pointer;
+        padding: 0.5rem;
+      }
+
+      @media (max-width: 768px) {
+        .nav-container {
+          padding: 0 1rem;
+        }
+
+        .nav-links {
+          display: none;
+        }
+
+        .mobile-menu-button {
+          display: block;
+        }
+      }
+    </style>
+</head>
+<body class="custom-bg min-h-screen flex flex-col bg-beige">
+    <!-- SVG background -->
+    <!--<img src="Mindfulness-bro.svg" alt="Mindfulness" class="svg-bg-about" />-->
+
+    <!-- Navigation Bar -->
+    <nav class="navbar-green">
+        <div class="nav-container">
+            <a href="index.html" class="nav-brand righteous-regular">
+                <i class="fas fa-brain"></i>
+                MindMitra
+            </a>
+            <div class="nav-links">
+                <a href="selfassessment.html" class="nav-link">Take a Self-Assessment</a>
+                <a href="about.html" class="nav-link">About Us</a>
+                <a href="contact.html" class="nav-link">Contact Us</a>
+                <a href="login.html" class="btn-gradient px-8 py-3 rounded-full shadow-lg righteous-regular text-lg">Login</a>
+                <a href="signup.html" class="btn-gradient px-8 py-3 rounded-full shadow-lg righteous-regular text-lg">Sign Up</a>
+            </div>
+            <button type="button" class="mobile-menu-button md:hidden">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="flex-grow pt-20 px-4">
+        <div class="max-w-7xl mx-auto py-12">
+            <div class="text-center mb-16">
+                <h1 class="text-4xl font-bold righteous-regular heading-dark mb-4">About MindMitra</h1>
+                <p class="text-xl text-white/80">Your journey to better mental health starts here</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-12 items-center mb-16">
+                <div class="space-y-6">
+                    <h2 class="text-3xl font-bold righteous-regular heading-dark">Our Mission</h2>
+                    <p class="text-lg text-white/80">At MindMitra, we believe that mental health support should be accessible, affordable, and stigma-free. Our mission is to provide a safe space where individuals can find the support they need, when they need it.</p>
+                    <p class="text-lg text-white/80">We combine cutting-edge technology with compassionate care to create a platform that truly makes a difference in people's lives.</p>
+                </div>
+                <div class="flex justify-center">
+                    <img src="Psychologist-cuate.svg" alt="Mental Health Support" class="w-full max-w-md">
+                </div>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8 mb-16">
+                <div class="bg-white/10 backdrop-blur-md p-6 rounded-xl">
+                    <div class="text-blue-400 text-4xl mb-4">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3 class="text-xl font-bold righteous-regular heading-dark mb-2">Safe Space</h3>
+                    <p class="text-white/80">Your privacy and security are our top priorities. All conversations are confidential and protected.</p>
+                </div>
+                <div class="bg-white/10 backdrop-blur-md p-6 rounded-xl">
+                    <div class="text-blue-400 text-4xl mb-4">
+                        <i class="fas fa-hand-holding-heart"></i>
+                    </div>
+                    <h3 class="text-xl font-bold righteous-regular heading-dark mb-2">24/7 Support</h3>
+                    <p class="text-white/80">Access support whenever you need it, day or night. We're here for you around the clock.</p>
+                </div>
+                <div class="bg-white/10 backdrop-blur-md p-6 rounded-xl">
+                    <div class="text-blue-400 text-4xl mb-4">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3 class="text-xl font-bold righteous-regular heading-dark mb-2">AI-Powered</h3>
+                    <p class="text-white/80">Our advanced AI technology provides personalized support and resources tailored to your needs.</p>
+                </div>
+            </div>
+
+            <div class="text-center">
+                <h2 class="text-3xl font-bold righteous-regular heading-dark mb-8">Join Our Community</h2>
+                <p class="text-lg text-white/80 mb-8">Be part of a growing community dedicated to mental wellness and support.</p>
+                <a href="signup.html" class="inline-block bg-blue-500 text-white px-8 py-3 rounded-full shadow-lg hover:bg-blue-600 transition transform hover:scale-105">Get Started Today</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add a Follow Us section at the bottom -->
+    <footer class="mt-16 text-center">
+      <div class="flex justify-center space-x-6 mb-4">
+        <a href="https://instagram.com" target="_blank" class="text-2xl text-[#E1306C] hover:scale-110 transition"><i class="fab fa-instagram"></i></a>
+        <a href="https://twitter.com" target="_blank" class="text-2xl text-[#1DA1F2] hover:scale-110 transition"><i class="fab fa-twitter"></i></a>
+        <a href="https://facebook.com" target="_blank" class="text-2xl text-[#1877F3] hover:scale-110 transition"><i class="fab fa-facebook"></i></a>
+      </div>
+      <p class="text-secondary">Follow us for updates and mental wellness tips!</p>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        const mobileMenuButton = document.querySelector('.mobile-menu-button');
+        const mobileMenu = document.querySelector('.mobile-menu');
+        
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+    </script>
+</body>
+</html> 

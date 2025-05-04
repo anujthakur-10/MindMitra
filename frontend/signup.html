@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - MindMitra</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+    <script src="firebase-config.js" defer></script>
+    <script src="script.js" defer></script>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Righteous&display=swap">
+    <style>
+      :root {
+        --beige-bg: #f9f7f0;
+        --primary-blue: #3b82f6;
+        --primary-green: #2ecc71;
+        --gradient-start: #43e97b;
+        --gradient-end: #38f9d7;
+      }
+
+      .righteous-regular {
+        font-family: "Righteous", sans-serif;
+        font-weight: 400;
+        font-style: normal;
+      }
+      .heading-dark { color: #22292f !important; }
+      .label-dark { color: #22292f !important; }
+      .input-dark { color: #22292f !important; background: #fff !important; }
+      .svg-bg-signup { position: fixed; right: 0; bottom: 0; z-index: 0; width: 600px; max-width: 50vw; opacity: 0.45; pointer-events: none; }
+      @media (max-width: 900px) { .svg-bg-signup { width: 90vw; max-width: 100vw; opacity: 0.18; } }
+      .main-content-signup { position: relative; z-index: 1; }
+      body.bg-beige-signup {
+        background: var(--beige-bg) url('Computer login-bro.svg') no-repeat right bottom;
+        background-size: 40% auto;
+      }
+      @media (max-width: 900px) {
+        body.bg-beige-signup {
+          background-size: 80% auto;
+        }
+      }
+
+      .navbar-green {
+        background: linear-gradient(90deg, var(--gradient-start) 0%, var(--gradient-end) 100%);
+        color: white;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        padding: 0.5rem 0;
+      }
+
+      .nav-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 70px;
+      }
+
+      .nav-brand {
+        color: white;
+        text-decoration: none;
+        font-size: 1.8rem;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .nav-brand i {
+        font-size: 2rem;
+        color: var(--primary-blue);
+      }
+
+      .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 2rem;
+      }
+
+      .nav-link {
+        color: white;
+        text-decoration: none;
+        font-size: 1rem;
+        padding: 0.5rem 1rem;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+      }
+
+      .nav-link:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+      }
+
+      /* .btn-primary {
+        background-color: #43e97b;
+        color: var(--primary-blue);
+        padding: 0.7rem 1.5rem;
+        border-radius: 9999px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        text-decoration: none;
+      }
+
+      .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(255, 255, 255, 0.2);
+      }
+
+      .btn-outline {
+        border: 2px solid white;
+        color: #43e97b;
+        padding: 0.7rem 1.5rem;
+        border-radius: 9999px;
+        font-weight: 500;
+        /* transition: all 0.3s ease; */
+        /* text-decoration: none;
+      } */
+
+      /* .btn-outline:hover {
+        background-color: white;
+        color: var(--primary-blue);
+      } */
+
+      .theme-toggle {
+        background: none;
+        border: none;
+        color: white;
+        cursor: pointer;
+        padding: 0.5rem;
+        border-radius: 50%;
+        transition: all 0.3s ease;
+      }
+
+      .theme-toggle:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+      }
+
+      .mobile-menu-button {
+        background: none;
+        border: none;
+        color: white;
+        font-size: 1.5rem;
+        cursor: pointer;
+        padding: 0.5rem;
+      }
+
+      @media (max-width: 768px) {
+        .nav-container {
+          padding: 0 1rem;
+        }
+
+        .nav-links {
+          display: none;
+        }
+
+        .mobile-menu-button {
+          display: block;
+        }
+      }
+    </style>
+</head>
+<body class="custom-bg min-h-screen flex flex-col bg-beige bg-beige-signup">
+    <!-- SVG background -->
+    <img src="Computer login-bro.svg" alt="Computer Login" class="svg-bg-signup" />
+
+    <!-- Navigation Bar -->
+    <nav class="navbar-green">
+        <div class="nav-container">
+            <a href="index.html" class="nav-brand righteous-regular">
+                <i class="fas fa-brain"></i>
+                MindMitra
+            </a>
+            <div class="nav-links">
+                <a href="selfassessment.html" class="nav-link">Take a Self-Assessment</a>
+                <a href="about.html" class="nav-link">About Us</a>
+                <a href="contact.html" class="nav-link">Contact Us</a>
+                <a href="login.html" class="btn-gradient px-8 py-3 rounded-full shadow-lg righteous-regular text-lg">Login</a>
+                <a href="signup.html" class="btn-gradient px-8 py-3 rounded-full shadow-lg righteous-regular text-lg">Sign Up</a>
+            </div>
+            <button type="button" class="mobile-menu-button md:hidden">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="flex-grow flex items-center justify-center px-4 pt-20">
+        <div class="max-w-md w-full">
+            <div class="bg-white/10 backdrop-blur-md p-8 rounded-xl shadow-xl">
+                <div class="text-center mb-8">
+                    <h1 class="text-3xl font-bold righteous-regular heading-dark mb-2">Create an Account</h1>
+                    <p class="text-white/80">Join MindMitra and start your journey to better mental health</p>
+                </div>
+
+                <form class="space-y-6" action="mailto:mindmitra4you@gmail.com" method="POST" enctype="text/plain">
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label for="firstName" class="block label-dark mb-2">First Name</label>
+                            <input type="text" id="firstName" class="w-full px-4 py-3 rounded-lg input-dark placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        </div>
+                        <div>
+                            <label for="lastName" class="block label-dark mb-2">Last Name</label>
+                            <input type="text" id="lastName" class="w-full px-4 py-3 rounded-lg input-dark placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label for="email" class="block label-dark mb-2">Email Address</label>
+                        <input type="email" id="email" class="w-full px-4 py-3 rounded-lg input-dark placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </div>
+
+                    <div>
+                        <label for="password" class="block label-dark mb-2">Password</label>
+                        <input type="password" id="password" class="w-full px-4 py-3 rounded-lg input-dark placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </div>
+
+                    <div>
+                        <label for="confirmPassword" class="block label-dark mb-2">Confirm Password</label>
+                        <input type="password" id="confirmPassword" class="w-full px-4 py-3 rounded-lg input-dark placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </div>
+
+                    <div class="flex items-center">
+                        <input type="checkbox" id="terms" class="rounded bg-white/20 border-white/30 text-blue-500 focus:ring-blue-500">
+                        <label for="terms" class="ml-2 text-white/80 text-sm">
+                            I agree to the <a href="#" class="text-blue-400 hover:text-blue-300">Terms of Service</a> and <a href="#" class="text-blue-400 hover:text-blue-300">Privacy Policy</a>
+                        </label>
+                    </div>
+
+                    <button type="submit" onclick="signup()" class="w-full bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition transform hover:scale-105">
+                        Create Account
+                    </button>
+
+                    <div class="text-center">
+                        <p class="text-white/80">
+                            Already have an account? <a href="login.html" class="text-blue-400 hover:text-blue-300">Sign in</a>
+                        </p>
+                    </div>
+                </form>
+
+                <div class="mt-8">
+                    <div class="relative">
+                        <div class="absolute inset-0 flex items-center">
+                            <div class="w-full border-t border-white/20"></div>
+                        </div>
+                        <div class="relative flex justify-center text-sm">
+                            <span class="px-2 bg-transparent text-white/80">Or continue with</span>
+                        </div>
+                    </div>
+
+                    <div class="mt-6 grid grid-cols-3 gap-3">
+                        <button type="button" class="w-full inline-flex justify-center py-2 px-4 border border-white/20 rounded-lg shadow-sm bg-white/10 text-white hover:bg-white/20 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                            <i class="fab fa-google text-xl"></i>
+                        </button>
+                        <button type="button" class="w-full inline-flex justify-center py-2 px-4 border border-white/20 rounded-lg shadow-sm bg-white/10 text-white hover:bg-white/20 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                            <i class="fab fa-facebook-f text-xl"></i>
+                        </button>
+                        <button type="button" class="w-full inline-flex justify-center py-2 px-4 border border-white/20 rounded-lg shadow-sm bg-white/10 text-white hover:bg-white/20 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                            <i class="fab fa-apple text-xl"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Mobile menu toggle
+        const mobileMenuButton = document.querySelector('.mobile-menu-button');
+        const mobileMenu = document.querySelector('.mobile-menu');
+        
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+    </script>
+</body>
+</html> 

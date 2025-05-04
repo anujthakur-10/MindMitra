@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MindMitra - Your Mental Wellness Companion</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+    <script src="firebase-config.js" defer></script>
+    <script src="script.js" defer></script>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Righteous&display=swap">
+    <style>
+      :root {
+        --beige-bg: #f9f7f0;
+        --primary-blue: #3b82f6;
+        --primary-green: #2ecc71;
+        --gradient-start: #43e97b;
+        --gradient-end: #38f9d7;
+      }
+
+      .righteous-regular {
+        font-family: "Righteous", sans-serif;
+        font-weight: 400;
+        font-style: normal;
+      }
+      .heading-dark {
+        color: #22292f !important;
+      }
+      .btn-gradient { background: linear-gradient(90deg, #43e97b 0%, #38f9d7 100%); color: #fff; box-shadow: 0 4px 16px rgba(67,233,123,0.15); border: none; transition: all 0.2s; }
+      .btn-gradient:hover { background: linear-gradient(90deg, #38f9d7 0%, #43e97b 100%); transform: translateY(-2px) scale(1.04); }
+      .btn-outline-modern { border: 2px solid #3b82f6; color: #3b82f6; background: #fff; transition: all 0.2s; }
+      .btn-outline-modern:hover { background: #3b82f6; color: #fff; }
+      .bg-mindfulness { background: var(--beige-bg); position: relative; }
+      .svg-bg-index { position: fixed; right: 0; bottom: 0; z-index: 0; width: 600px; max-width: 50vw; opacity: 0.45; pointer-events: none; }
+      @media (max-width: 900px) { .svg-bg-index { width: 90vw; max-width: 100vw; opacity: 0.18; } }
+      .brand-blue { color: #3b82f6 !important; }
+      .main-content-index { position: relative; z-index: 1; }
+
+      .navbar-green {
+            background: linear-gradient(90deg, var(--gradient-start) 0%, var(--gradient-end) 100%);
+            color: white;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 0.5rem 0;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+
+        .nav-brand {
+            color: white;
+            text-decoration: none;
+            font-size: 1.8rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .nav-brand i {
+            font-size: 2rem;
+            color: var(--primary-blue);
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            font-size: 1rem;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        /* .btn-primary {
+            background-color: white;
+            color: var(--primary-blue);
+            padding: 0.7rem 1.5rem;
+            border-radius: 9999px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255, 255, 255, 0.2);
+        } */
+
+       /* .btn-outline {
+            border: 2px solid white;
+            color: white;
+            padding: 0.7rem 1.5rem;
+            border-radius: 9999px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .btn -outline:hover {
+            background-color: white;
+            color: var(--primary-blue);
+        } */
+
+        .theme-toggle {
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .theme-toggle:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .mobile-menu-button {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .nav-container {
+                padding: 0 1rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .mobile-menu-button {
+                display: block;
+            }
+        }
+      
+    </style>
+    <script>
+        // Theme toggle functionality
+        document.addEventListener('DOMContentLoaded', () => {
+            const themeToggle = document.getElementById('theme-toggle');
+            const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+            
+            // Check for saved theme preference or use system preference
+            const currentTheme = localStorage.getItem('theme') || 
+                               (prefersDarkScheme.matches ? 'dark' : 'light');
+            document.documentElement.setAttribute('data-theme', currentTheme);
+            
+            // Update icon based on current theme
+            updateThemeIcon(currentTheme);
+            
+            themeToggle.addEventListener('click', () => {
+                const currentTheme = document.documentElement.getAttribute('data-theme');
+                const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                
+                document.documentElement.setAttribute('data-theme', newTheme);
+                localStorage.setItem('theme', newTheme);
+                updateThemeIcon(newTheme);
+            });
+            
+            function updateThemeIcon(theme) {
+                const icon = theme === 'dark' ? 'fa-sun' : 'fa-moon';
+                themeToggle.innerHTML = `<i class="fas ${icon}"></i>`;
+            }
+        });
+    </script>
+</head>
+<body class="custom-bg min-h-screen flex flex-col bg-beige bg-mindfulness">
+    <!-- SVG background -->
+    <img src="Mindfulness-bro.svg" alt="Mindfulness" class="svg-bg-index" />
+
+    <!-- Modern Navigation Bar -->
+    <nav class="navbar-green">
+        <div class="nav-container">
+            <a href="index.html" class="nav-brand righteous-regular">
+                <i class="fas fa-brain"></i>
+                MindMitra
+            </a>
+            <div class="nav-links">
+                <a href="selfassessment.html" class="nav-link">Take a Self-Assessment</a>
+                <a href="about.html" class="nav-link">About Us</a>
+                <a href="contact.html" class="nav-link">Contact Us</a>
+                <a href="login.html" class="btn-gradient px-8 py-3 rounded-full shadow-lg righteous-regular text-lg">Login</a>
+                <a href="signup.html" class="btn-gradient px-8 py-3 rounded-full shadow-lg righteous-regular text-lg">Sign Up</a>
+            </div>
+            <button type="button" class="mobile-menu-button md:hidden">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="flex-grow flex items-center justify-center px-4 pt-20 main-content-index">
+        <div class="text-center max-w-4xl fade-in">
+            <h1 class="text-5xl font-bold righteous-regular heading-dark mb-6">Welcome to MindMitra</h1>
+            <p class="text-xl mb-8 text-secondary">Your personal mental health companion in tough times.</p>
+            <p class="text-lg mb-12 text-secondary">Many people struggle silently. MindMitra is here to listen, guide, and support you when you need it most. Mental health matters, and getting help should be easy, friendly, and secure. <br><br>At MindMitra, we offer a safe, confidential, and friendly space to talk about your feelings, learn coping strategies, and connect with resources that can help you thrive. Whether you're feeling stressed, anxious, or just need someone to talk to, we're here for you—every step of the way.</p>
+            <div class="flex justify-center space-x-4">
+                <button onclick="window.location.href='login.html'" class="btn-gradient px-8 py-3 rounded-full shadow-lg righteous-regular text-lg">Try MindMitra</button>
+                <button onclick="window.location.href='about.html'" class="btn-outline-modern px-8 py-3 rounded-full shadow-lg righteous-regular text-lg">Learn More</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

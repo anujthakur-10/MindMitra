@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mental Health Self-Assessment</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Righteous&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --beige-bg: #f9f7f0;
+            --primary-blue: #3b82f6;
+            --gradient-start: #43e97b;
+            --gradient-end: #38f9d7;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .righteous-regular {
+            font-family: "Righteous", sans-serif;
+            font-weight: 400;
+            font-style: normal;
+        }
+
+        body {
+            background-color: var(--beige-bg);
+            color: #333;
+            line-height: 1.6;
+            padding-top: 80px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            max-width: 800px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 40px 20px;
+            background: linear-gradient(90deg, var(--gradient-start) 0%, var(--gradient-end) 100%);
+            color: white;
+            border-radius: 15px;
+            width: 100%;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .header h1 {
+            font-family: "Righteous", sans-serif;
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: white;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        #assessmentForm {
+            width: 100%;
+        }
+
+        .question-container {
+            background-color: white;
+            padding: 25px;
+            margin-bottom: 20px;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            width: 100%;
+        }
+
+        .question {
+            margin-bottom: 20px;
+            font-weight: bold;
+            font-family: "Righteous", sans-serif;
+            font-size: 1.1rem;
+            color: #2d3748;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 15px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .option:hover {
+            background-color: #f7fafc;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .submit-btn {
+            display: block;
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(90deg, var(--gradient-start) 0%, var(--gradient-end) 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: "Righteous", sans-serif;
+            margin-top: 30px;
+            box-shadow: 0 4px 15px rgba(67,233,123,0.2);
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(67,233,123,0.3);
+        }
+
+        .results {
+            display: none;
+            background-color: white;
+            padding: 30px;
+            margin-top: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            width: 100%;
+            text-align: center;
+        }
+
+        .results h2 {
+            font-family: "Righteous", sans-serif;
+            color: #2d3748;
+            margin-bottom: 20px;
+            font-size: 2rem;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 24px;
+            background-color: #f0f0f0;
+            border-radius: 12px;
+            margin: 25px 0;
+            overflow: hidden;
+        }
+
+        .progress {
+            height: 100%;
+            background: linear-gradient(90deg, var(--gradient-start) 0%, var(--gradient-end) 100%);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        #resultText, #suggestionText {
+            font-size: 1.1rem;
+            margin: 15px 0;
+            line-height: 1.6;
+        }
+
+        .mindmitra-btn {
+            display: none;
+            margin-top: 25px;
+            text-align: center;
+        }
+
+        .mindmitra-btn button {
+            background: linear-gradient(90deg, var(--gradient-start) 0%, var(--gradient-end) 100%);
+            color: white;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 30px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: "Righteous", sans-serif;
+            box-shadow: 0 4px 15px rgba(67,233,123,0.2);
+        }
+
+        .mindmitra-btn button:hover {
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 0 6px 20px rgba(67,233,123,0.3);
+        }
+
+        .navbar-green {
+            background: linear-gradient(90deg, var(--gradient-start) 0%, var(--gradient-end) 100%);
+            color: white;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 0.5rem 0;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+
+        .nav-brand {
+            color: white;
+            text-decoration: none;
+            font-size: 1.8rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .nav-brand i {
+            font-size: 2rem;
+            color: var(--primary-blue);
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            font-size: 1rem;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .btn-primary {
+            background-color: white;
+            color: var(--primary-blue);
+            padding: 0.7rem 1.5rem;
+            border-radius: 9999px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-outline {
+            border: 2px solid white;
+            color: white;
+            padding: 0.7rem 1.5rem;
+            border-radius: 9999px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .btn-outline:hover {
+            background-color: white;
+            color: var(--primary-blue);
+        }
+
+        .theme-toggle {
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .theme-toggle:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .mobile-menu-button {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .nav-container {
+                padding: 0 1rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .mobile-menu-button {
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar-green">
+        <div class="nav-container">
+            <a href="index.html" class="nav-brand righteous-regular">
+                <i class="fas fa-brain"></i>
+                MindMitra
+            </a>
+            <div class="nav-links">
+                <a href="selfassessment.html" class="nav-link">Take a Self-Assessment</a>
+                <a href="about.html" class="nav-link">About Us</a>
+                <a href="contact.html" class="nav-link">Contact Us</a>
+                <a href="login.html" class="btn-primary">Login</a>
+                <a href="signup.html" class="btn-outline">Sign Up</a>
+            </div>
+            <button type="button" class="mobile-menu-button md:hidden">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="header">
+            <h1>Mental Health Self-Assessment</h1>
+            <p>Please answer the following questions honestly to assess your current mental health status.</p>
+        </div>
+
+        <form id="assessmentForm">
+            <div class="question-container">
+                <div class="question">1. How often do you feel anxious or worried?</div>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q1" value="0" required> Never
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q1" value="1"> Sometimes
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q1" value="2"> Often
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q1" value="3"> Always
+                    </label>
+                </div>
+            </div>
+
+            <div class="question-container">
+                <div class="question">2. How is your sleep quality?</div>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q2" value="0" required> Excellent
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q2" value="1"> Good
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q2" value="2"> Fair
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q2" value="3"> Poor
+                    </label>
+                </div>
+            </div>
+
+            <div class="question-container">
+                <div class="question">3. How often do you feel sad or depressed?</div>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q3" value="0" required> Never
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q3" value="1"> Sometimes
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q3" value="2"> Often
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q3" value="3"> Always
+                    </label>
+                </div>
+            </div>
+
+            <div class="question-container">
+                <div class="question">4. How is your energy level?</div>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q4" value="0" required> High
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q4" value="1"> Moderate
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q4" value="2"> Low
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q4" value="3"> Very Low
+                    </label>
+                </div>
+            </div>
+
+            <div class="question-container">
+                <div class="question">5. How well do you handle stress?</div>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q5" value="0" required> Very Well
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q5" value="1"> Moderately Well
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q5" value="2"> Not Well
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q5" value="3"> Poorly
+                    </label>
+                </div>
+            </div>
+
+            <div class="question-container">
+                <div class="question">6. How often do you experience mood swings?</div>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q6" value="0" required> Never
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q6" value="1"> Sometimes
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q6" value="2"> Often
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q6" value="3"> Always
+                    </label>
+                </div>
+            </div>
+
+            <div class="question-container">
+                <div class="question">7. How is your appetite?</div>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q7" value="0" required> Normal
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q7" value="1"> Slightly Changed
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q7" value="2"> Significantly Changed
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q7" value="3"> Very Poor
+                    </label>
+                </div>
+            </div>
+
+            <div class="question-container">
+                <div class="question">8. How often do you feel overwhelmed?</div>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q8" value="0" required> Never
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q8" value="1"> Rarely
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q8" value="2"> Often
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q8" value="3"> Always
+                    </label>
+                </div>
+            </div>
+
+            <div class="question-container">
+                <div class="question">9. How is your concentration?</div>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q9" value="0" required> Excellent
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q9" value="1"> Good
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q9" value="2"> Fair
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q9" value="3"> Poor
+                    </label>
+                </div>
+            </div>
+
+            <div class="question-container">
+                <div class="question">10. How often do you feel disconnected from others?</div>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q10" value="0" required> Never
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q10" value="1"> Sometimes
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q10" value="2"> Often
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q10" value="3"> Always
+                    </label>
+                </div>
+            </div>
+
+            <button type="submit" class="submit-btn">Submit Assessment</button>
+        </form>
+
+        <div id="results" class="results">
+            <h2>Your Assessment Results</h2>
+            <div class="progress-bar">
+                <div class="progress" id="progressBar"></div>
+            </div>
+            <p id="resultText"></p>
+            <p id="suggestionText"></p>
+            <div id="mindmitraBtn" class="mindmitra-btn">
+                <button onclick="window.location.href='chat.html'" class="btn-outline-modern px-8 py-3 rounded-full shadow-lg righteous-regular text-lg">Talk to MindMitra</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('assessmentForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            let totalScore = 0;
+            const questions = ['q1', 'q2', 'q3', 'q4', 'q5', 'q6', 'q7', 'q8', 'q9', 'q10'];
+            
+            questions.forEach(q => {
+                const selectedValue = document.querySelector(`input[name="${q}"]:checked`);
+                if (selectedValue) {
+                    totalScore += parseInt(selectedValue.value);
+                }
+            });
+
+            const maxScore = 30; // 10 questions * 3 points max
+            const percentage = (totalScore / maxScore) * 100;
+            
+            document.getElementById('progressBar').style.width = `${percentage}%`;
+            document.getElementById('results').style.display = 'block';
+
+            let resultText = '';
+            let suggestionText = '';
+
+            if (totalScore <= 10) {
+                resultText = 'Your mental health appears to be in good condition.';
+                suggestionText = 'Continue practicing self-care and maintaining healthy habits.';
+                document.getElementById('mindmitraBtn').style.display = 'none';
+            } else if (totalScore <= 20) {
+                resultText = 'You may be experiencing some mental health challenges.';
+                suggestionText = 'Consider talking to a trusted friend or family member about how you\'re feeling.';
+                document.getElementById('mindmitraBtn').style.display = 'block';
+            } else {
+                resultText = 'You may be experiencing significant mental health challenges.';
+                suggestionText = 'It might be helpful to speak with a mental health professional. Consider reaching out to a counselor or therapist.';
+                document.getElementById('mindmitraBtn').style.display = 'block';
+            }
+
+            document.getElementById('resultText').textContent = resultText;
+            document.getElementById('suggestionText').textContent = suggestionText;
+
+            // Scroll to results
+            document.getElementById('results').scrollIntoView({ behavior: 'smooth' });
+        });
+
+        // Add scroll event listener for navbar
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar-green');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Mobile menu toggle
+        document.querySelector('.mobile-menu-button').addEventListener('click', function() {
+            document.querySelector('.mobile-menu').classList.toggle('active');
+        });
+    </script>
+</body>
+</html> 
