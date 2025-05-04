@@ -5,11 +5,12 @@
 - Landing Page: `index.html`
 - Login/Signup Page: `login.html`
 - Chat Interface: `chat.html`
+- About Page:`about.html`
 - Firebase Authentication (Email/Password, Google, Guest)
 
 ## Backend (Python + FastAPI)
 
-- Chat API using OpenAI GPT-3.5
+- Chat API using Google Gemini 2.0 Flash
 - `/chat` POST endpoint for conversation
 
 ## Setup Instructions
